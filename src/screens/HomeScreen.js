@@ -31,6 +31,7 @@ import drink from "../assests/drink.png"
 import barbecue from "../assests/barbecue.png"
 import grilling from "../assests/grilling.png"
 import rice from "../assests/rice.png"
+import axios from 'axios';
 
 
 
@@ -44,6 +45,17 @@ export default function HomeScreen({ navigation }) {
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
   const [searchQuery, setSearchQuery] = useState('');
+  const [productData, setProductData] = useState(null);
+  useEffect(() => {
+    // Make API call using Axios
+    axios.get('http://localhost:5001/groceries/totalsalesproduct')
+      .then(response => {
+        setProductData(response.data.deliveredProducts);
+      })
+      .catch(error => {
+        console.error('Error fetching product data:', error);
+      });
+  }, [isFocused]);
 
   useEffect(() => {
     dispatch(getPost())
@@ -134,6 +146,7 @@ export default function HomeScreen({ navigation }) {
     );
     return chunk(filteredArray, 4); // Chunk the filtered array into chunks of size 4
   };
+
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -271,226 +284,71 @@ export default function HomeScreen({ navigation }) {
         {renderBestSelling()} */}
         <View style={{ marginHorizontal: "5%", marginTop: "5%", display: 'flex', justifyContent: "space-between", flexDirection: "row" }}>
           <Text style={{ fontSize: 14, fontWeight: "bold", color: "black" }}>Trending this Week</Text>
-          <Text style={{ fontSize: 14, fontWeight: "bold", color: "#ffbf00" }}>View All</Text>
         </View>
 
         <ScrollView horizontal={true} >
-          <View
-            style={{
-              justifyContent: 'center',
-              height: moderateScale(200),
-              maxHeight: "auto",
-              width: moderateScale(220),
-              margin: 10,
-              backgroundColor: 'white',
-              borderWidth: 0.5,
-              borderColor: '#D3D3D3',
-              borderRadius: 20,
-              marginLeft: scale(25)
-            }}>
-            <TouchableOpacity
+
+          {productData && productData.map(product => (
+            <View
+              key={product.product?._id}
               style={{
-                flex: 1,
-              }}
-              onPress={() =>
-                navigation.navigate('ProductDetail', {
-                  title: "Chicken Burger Chrispy",
-                  price: "29.99",
-                  image: "https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                  size: 2,
-                  id: "id",
-                  item: "item",
-                  description: "dummy data",
-                })}>
-              <Image
-                style={{
-                  height: moderateScale(120),
-                  width: "100%",
-                  borderTopRightRadius: 20,
-                  borderTopLeftRadius: 20
-                }}
-                resizeMode='contain'
-                source={{ uri: 'https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
-              />
-
-              <Text style={{ marginLeft: 10, fontSize: 16, color: 'black', fontWeight: "bold", marginTop: "1%" }}>
-                Chicken Burger Chrispy
-              </Text>
-              <Text style={{ marginLeft: 10, fontSize: 10 }}>Hot Sales</Text>
-              <View
-                style={{
-                  marginTop: scale(10),
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginHorizontal: 10,
-
-                }}>
-                <View style={{ display: "flex", flexDirection: "row", marginTop: scale(2), }}>
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                </View>
-                <Text style={{ fontSize: 14, color: 'black', fontWeight: "bold" }}>29.99</Text>
-              </View>
-
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              height: moderateScale(200),
-              maxHeight: "auto",
-              width: moderateScale(220),
-              margin: 10,
-              backgroundColor: 'white',
-              borderWidth: 0.5,
-              borderColor: '#D3D3D3',
-              borderRadius: 20,
-            }}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('ProductDetail', {
-                  title: "Chicken Burger Chrispy",
-                  price: "29.99",
-                  image: "https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                  size: 2,
-                  id: "id",
-                  item: "item",
-                  description: "dummy data",
-                })}
-
-              style={{
-                flex: 1,
+                justifyContent: 'center',
+                height: moderateScale(200),
+                maxHeight: "auto",
+                width: moderateScale(220),
+                margin: 10,
+                backgroundColor: 'white',
+                borderWidth: 0.5,
+                borderColor: '#D3D3D3',
+                borderRadius: 20,
+                marginLeft: scale(25)
               }}>
-              <Image
+              <TouchableOpacity
                 style={{
-                  height: moderateScale(120),
-                  width: "100%",
-                  borderTopRightRadius: 20,
-                  borderTopLeftRadius: 20
+                  flex: 1,
                 }}
-                resizeMode='contain'
-                source={{ uri: 'https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
-              />
+                onPress={() =>
+                  navigation.navigate('ProductDetail', {
+                    title: product?.product?.title,
+                    price: product?.product?.price,
+                    image: product?.product?.image,
+                    size: product?.product.size,
+                    id: product.product?.id,
+                    item: product.product,
+                    description: product.product?.description,
+                  })}>
+                <Image
+                  style={{
+                    height: moderateScale(120),
+                    width: "100%",
+                    borderTopRightRadius: 20,
+                    borderTopLeftRadius: 20
+                  }}
+                  resizeMode='contain'
+                  source={{ uri: product?.product.image }}
+                />
 
-              <Text style={{ marginLeft: 10, fontSize: 16, color: 'black', fontWeight: "bold", marginTop: "1%" }}>
-                Chicken Burger Chrispy
-              </Text>
-              <Text style={{ marginLeft: 10, fontSize: 10 }}>Hot Sales</Text>
-              <View
-                style={{
-                  marginTop: scale(10),
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginHorizontal: 10,
-
-                }}>
-                <View style={{ display: "flex", flexDirection: "row", marginTop: scale(2), }}>
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
+                <Text style={{ marginLeft: 10, fontSize: 16, color: 'black', fontWeight: "bold", marginTop: "1%" }}>
+                  {product.title}
+                </Text>
+                <Text style={{ marginLeft: 10, fontSize: 10 }}>{product?.product?.title}</Text>
+                <View
+                  style={{
+                    marginTop: scale(10),
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 10,
+                  }}>
+                  <View style={{ display: "flex", flexDirection: "row", marginTop: scale(2), }}>
+                    {/* Render stars here */}
+                  </View>
+                  <Text style={{ fontSize: 14, color: 'black', fontWeight: "bold" }}>RS {product?.product?.price}</Text>
                 </View>
-                <Text style={{ fontSize: 14, color: 'black', fontWeight: "bold" }}>29.99</Text>
-              </View>
+              </TouchableOpacity>
+            </View>
+          ))}
 
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              height: moderateScale(200),
-              maxHeight: "auto",
-              width: moderateScale(220),
-              margin: 10,
-              backgroundColor: 'white',
-              borderWidth: 0.5,
-              borderColor: '#D3D3D3',
-              borderRadius: 20,
-            }}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('ProductDetail', {
-                  title: "Chicken Burger Chrispy",
-                  price: "29.99",
-                  image: "https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                  size: 2,
-                  id: "id",
-                  item: "item",
-                  description: "dummy data",
-                })}
 
-              style={{
-                flex: 1,
-              }}>
-              <Image
-                style={{
-                  height: moderateScale(120),
-                  width: "100%",
-                  borderTopRightRadius: 20,
-                  borderTopLeftRadius: 20
-                }}
-                resizeMode='contain'
-                source={{ uri: 'https://images.pexels.com/photos/1199960/pexels-photo-1199960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
-              />
-
-              <Text style={{ marginLeft: 10, fontSize: 16, color: 'black', fontWeight: "bold", marginTop: "1%" }}>
-                Chicken Burger Chrispy
-              </Text>
-              <Text style={{ marginLeft: 10, fontSize: 10 }}>Hot Sales</Text>
-              <View
-                style={{
-                  marginTop: scale(10),
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginHorizontal: 10,
-
-                }}>
-                <View style={{ display: "flex", flexDirection: "row", marginTop: scale(2), }}>
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                  <Image style={{ height: 15, width: 15 }}
-                    source={star}
-                  />
-                </View>
-                <Text style={{ fontSize: 14, color: 'black', fontWeight: "bold" }}>29.99</Text>
-              </View>
-
-            </TouchableOpacity>
-          </View>
         </ScrollView>
         <View style={{ marginHorizontal: "5%", marginTop: "5%", display: 'flex', justifyContent: "space-between", flexDirection: "row" }}>
           <Text style={{ fontSize: 14, fontWeight: "bold", color: "black" }}>Categories</Text>
