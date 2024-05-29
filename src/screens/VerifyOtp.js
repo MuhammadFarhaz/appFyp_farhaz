@@ -48,7 +48,7 @@ const VerifyOtp = ({ route, navigation }) => {
 
     try {
       const userData = await axios.post(
-        'http://192.168.0.103:5001/auth/verify',
+        'http://localhost:5001/auth/verify',
         formData,
       );
       console.log(userData);

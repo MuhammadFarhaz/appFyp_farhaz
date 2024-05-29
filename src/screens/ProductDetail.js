@@ -187,7 +187,7 @@ export default function ProductDetail({ navigation, route }) {
   const createCart = async id => {
     try {
       const dat = await axios.post(
-        'http://192.168.0.103:5001/groceries/cart',
+        'http://localhost:5001/groceries/cart',
         {
           itemId: item?._id,
           title: title,

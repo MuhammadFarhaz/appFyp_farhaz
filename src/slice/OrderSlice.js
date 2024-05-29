@@ -11,7 +11,7 @@ const getOrders = createAsyncThunk('api/getOrders', async () => {
   const id = JSON.parse(storedUserId);
   try {
     const response = await axios.get(
-      `http://192.168.0.103:5001/groceries/getOrder/${id}`,
+      `http://localhost:5001/groceries/getOrder/${id}`,
     );
     return response.data;
   } catch (error) {

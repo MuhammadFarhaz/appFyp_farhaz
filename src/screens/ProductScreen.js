@@ -14,7 +14,7 @@ const windowHeight = Dimensions.get('window').height;
 export default function ProductScreen({ navigation }) {
 
     const route = useRoute()
-    const { posts, text } = route.params
+    const { posts, text, dealAllow } = route.params
     // Array of carts
     console.log("posts", posts, text);
 
@@ -80,7 +80,7 @@ export default function ProductScreen({ navigation }) {
                 <ScrollView>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                         {filterCarts()?.map((recipe, index) => (
-                            recipe?.category == text &&
+                            recipe?.category == text  &&
                             <View
                                 key={recipe?._id}
                                 style={{
@@ -111,13 +111,15 @@ export default function ProductScreen({ navigation }) {
                                     <Image source={{ uri: recipe?.image ? recipe.image.replace(/^http:/, 'https:') : null }} style={{ width: '100%', resizeMode: 'cover', height: 150, borderTopLeftRadius: 7, borderTopRightRadius: 7 }} />
                                 </TouchableOpacity>
                                 <View style={{ paddingHorizontal: '5%' }}>
-                                    <Text style={{ fontSize: scale(11), fontWeight: '500', fontFamily: 'Poppins-SemiBold', color: 'red' }}>{recipe.deal}</Text>
+                                    <Text style={{ fontSize: scale(11), fontWeight: '500', fontFamily: 'Poppins-SemiBold', color: 'red' }}>
+                                        {dealAllow && recipe.deal}
+                                    </Text>
                                     <Text style={{ fontSize: scale(11), fontWeight: '500', fontFamily: 'Poppins-SemiBold', color: 'black' }}>{recipe.title}</Text>
                                     <View style={{ display: "flex", flexDirection: "row" }}>
-                                 
+
                                         <Text style={styles.newPrice}>Rs {recipe.price}</Text>
                                     </View>
-                                </View> 
+                                </View>
 
                             </View>))}
                     </View>

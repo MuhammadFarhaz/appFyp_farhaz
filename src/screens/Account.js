@@ -36,7 +36,7 @@ export default function Account({ navigation }) {
   const logoutAccount = async () => {
     try {
       const dataUser = await axios.get(
-        'http://192.168.0.103:5001/auth/logout',
+        'http://localhost:5001/auth/logout',
       );
 
       if (dataUser) {

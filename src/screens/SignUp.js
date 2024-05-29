@@ -30,25 +30,18 @@ export default function SignUp({ navigation }) {
 
   const registerUser = async () => {
     try {
-      if (!email || !password || !shwimg) {
-        return ToastAndroid.show('Please Enter All Field', ToastAndroid.SHORT);
+      if (!username || !email || !password || !shwimg) {
+        return ToastAndroid.show('Please Enter All Fields', ToastAndroid.SHORT);
       }
+
       const formData = new FormData();
-      const strongRegex = new RegExp(
-        '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$',
-      );
+      const strongRegex = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$');
 
       if (!strongRegex.test(email)) {
-        ToastAndroid.show(
-          `Please Enter Valid Email ${email}`,
-          ToastAndroid.SHORT,
-        );
+        ToastAndroid.show(`Please Enter Valid Email ${email}`, ToastAndroid.SHORT);
         return false;
       } else if (password.length < 8) {
-        ToastAndroid.show(
-          `Password at least 8 character ${password}`,
-          ToastAndroid.SHORT,
-        );
+        ToastAndroid.show(`Password must be at least 8 characters`, ToastAndroid.SHORT);
         return false;
       }
 
@@ -65,21 +58,50 @@ export default function SignUp({ navigation }) {
           type: 'image/jpeg',
         });
       }
+
       setIsLoading(true);
-      const userData = await axios.post(
-        'http://192.168.0.103:5001/auth/register',
-        formData,
-      );
-      console.log("userData",userData)
-      ToastAndroid.show('please check your email', ToastAndroid.SHORT);
+
+      // Set the URL for the axios request
+      const url = 'http://localhost:5001/auth/register';
+
+      const response = await axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log("userData", response.data);
+      ToastAndroid.show('Please check your email', ToastAndroid.SHORT);
+
       await navigation.navigate('VerifyOtp', {
         email: email,
       });
+
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+
+      // Extract error message
+      let errorMessage = 'Registration failed. Please try again.';
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        errorMessage = `Error ${error.response.status}: ${error.response.data.message || error.message}`;
+        console.log('Server Response:', error.response.data);
+      } else if (error.request) {
+        // The request was made but no response was received
+        errorMessage = 'No response from server. Please check your network connection.';
+        console.log('Request:', error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        errorMessage = `Request error: ${error.message}`;
+      }
+
+      ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
+      setIsLoading(false);
     }
   };
+
 
   const getimg = async () => {
     const dta = await launchImageLibrary({

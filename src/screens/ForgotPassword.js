@@ -37,7 +37,7 @@ export default function ForgotPassword() {
       formData.append('email', email);
 
       const userData = await axios.post(
-        'http://192.168.0.103:5001/auth/forgotpassword',
+        'http://localhost:5001/auth/forgotpassword',
         formData,
       );
       console.log(userData?.data);

@@ -69,7 +69,7 @@ const OrderDetail = ({ navigation }) => {
 
     try {
       const { data } = await axios.put(
-        `http://192.168.0.103:5001/groceries/orderUpdate`,
+        `http://localhost:5001/groceries/orderUpdate`,
         {
           _id: orderId,
           status: value,

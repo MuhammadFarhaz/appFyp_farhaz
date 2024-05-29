@@ -57,7 +57,7 @@ const CashOnDelivery = ({ route, navigation }) => {
   const sendOtpVerifyUser = async () => {
     try {
       const data = await axios.post(
-        'http://192.168.0.103:5001/groceries/verifysend',
+        'http://localhost:5001/groceries/verifysend',
         {
           _id: userId,
         },
@@ -95,7 +95,7 @@ const CashOnDelivery = ({ route, navigation }) => {
     var otpverify = parseInt(otpUser);
     try {
       const res = await axios.post(
-        'http://192.168.0.103:5001/groceries/createOrder',
+        'http://localhost:5001/groceries/createOrder',
         {
           orderItems: data,
           shippingAddress1: address,

@@ -11,7 +11,7 @@ const getUser = createAsyncThunk('api/getProfile', async () => {
   console.log('Id', id);
   try {
     const response = await axios.get(
-      `http://192.168.0.103:5001/auth/getProfile/${id}`,
+      `http://localhost:5001/auth/getProfile/${id}`,
     );
     return response.data;
   } catch (error) {

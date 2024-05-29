@@ -37,7 +37,7 @@ export default function MyCart({ navigation }) {
   const deleteCart = async id => {
     try {
       const dat = await axios.delete(
-        `http://192.168.0.103:5001/groceries/deleteCart/${id}`,
+        `http://localhost:5001/groceries/deleteCart/${id}`,
       );
       console.log(dat.data);
       setList([dat.data]);

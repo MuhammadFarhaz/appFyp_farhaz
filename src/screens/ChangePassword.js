@@ -52,7 +52,7 @@ export default function ChangePassword() {
       formData.append('newPassword', password);
 
       const userData = await axios.put(
-        'http://192.168.0.103:5001/auth/resetpassword',
+        'http://localhost:5001/auth/resetpassword',
         formData,
       );
 

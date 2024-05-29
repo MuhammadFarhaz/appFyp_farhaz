@@ -24,6 +24,15 @@ import Pizza from "../assests/Pizza.png";
 import drinks from "../assests/drinks.png";
 import Icons from 'react-native-vector-icons/Feather';
 import CrossUIcon from 'react-native-vector-icons/Entypo';
+import naan from "../assests/naan.png"
+import curd from "../assests/curd.png"
+import salad from "../assests/salad.png"
+import drink from "../assests/drink.png"
+import barbecue from "../assests/barbecue.png"
+import grilling from "../assests/grilling.png"
+import rice from "../assests/rice.png"
+
+
 
 
 export default function HomeScreen({ navigation }) {
@@ -57,7 +66,6 @@ export default function HomeScreen({ navigation }) {
     const exclusiveOffers = posts
       .filter(item => item.category === 'Exclusive')
       .slice(0, 4);
-    console.log("nnfnfdnf", posts);
 
 
 
@@ -105,13 +113,13 @@ export default function HomeScreen({ navigation }) {
   };
   const categoryArray = [
     { name: "Pizza", image: Pizza },
-    { name: "BBQ", image: Pizza },
-    { name: "Karahi", image: Pizza },
-    { name: "Rice", image: Pizza },
-    { name: "Salad", image: Pizza },
-    { name: "Roti & Nan", image: Pizza },
-    { name: "Drinks", image: Pizza },
-    { name: "Raita", image: Pizza },
+    { name: "BBQ", image: barbecue },
+    { name: "Karahi", image: grilling },
+    { name: "Rice", image: rice },
+    { name: "Salad", image: salad },
+    { name: "Roti & Nan", image: naan },
+    { name: "Drinks", image: drink },
+    { name: "Raita", image: curd },
   ];
   function chunk(array, size) {
     const chunkedArray = [];

@@ -10,7 +10,7 @@ const getCart = createAsyncThunk('api/getCart', async cartsId => {
   const id = JSON.parse(storedUserId);
   console.log('Id', id);
   try {
-    const response = await axios.get(`http://192.168.0.103:5001/groceries/getCart/${id}`,
+    const response = await axios.get(`http://localhost:5001/groceries/getCart/${id}`,
     );
     return response.data;
   } catch (error) {

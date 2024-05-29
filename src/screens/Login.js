@@ -45,7 +45,7 @@ export default function Login({ setIsLoggedIn }) {
       formData.append('password', password);
 
       const userData = await axios.post(
-        'http://192.168.0.103:5001/auth/login',
+        'http://localhost:5001/auth/login',
         formData,
       );
       console.log(userData?.request, 'Login');

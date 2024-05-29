@@ -109,6 +109,7 @@ export default function Explore({ navigation }) {
                     id: recipe?._id,
                     item: recipe,
                     description: recipe?.description,
+                    dealAllow:true
                   })} style={{ height: moderateVerticalScale(150), width: '100%', position: 'relative' }}>
                   <Image source={{ uri: recipe?.image ? recipe.image.replace(/^http:/, 'https:') : null }} style={{ width: '100%', resizeMode: 'cover', height: 150, borderTopLeftRadius: 7, borderTopRightRadius: 7 }} />
                 </TouchableOpacity>

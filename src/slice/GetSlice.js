@@ -1,15 +1,15 @@
 // https://curious-crow-bracelet.cyclic.app/groceries/getGroceries
 
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 
 // Get API data
 const getPost = createAsyncThunk('api/getPost', async () => {
   try {
-    const response = await axios.get("http://192.168.0.103:5001/groceries/getGroceries",
+    const response = await axios.get("http://localhost:5001/groceries/getGroceries",
     );
-    console.log("res",response?.data);
+    console.log("response", response?.data);
     return response.data;
   } catch (error) {
     throw error;
@@ -67,5 +67,5 @@ const apiSlice = createSlice({
   },
 });
 
-export {getPost, searchApiData};
+export { getPost, searchApiData };
 export default apiSlice.reducer;

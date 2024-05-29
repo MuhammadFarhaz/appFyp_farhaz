@@ -95,7 +95,7 @@ export default function PaymentScreen({ route, navigation }) {
     console.log("totalPrice",totalPrice);
     if (cardinfo) {
       try {
-        const res = await axios.post('http://192.168.0.103:5001/groceries/newOrder',
+        const res = await axios.post('http://localhost:5001/groceries/newOrder',
           {
             orderItems: data,
             shippingAddress1: address,
@@ -178,7 +178,7 @@ export default function PaymentScreen({ route, navigation }) {
   const sendOtpVerifyUser = async () => {
     try {
       const data = await axios.post(
-        'http://192.168.0.103:5001/groceries/verifysend',
+        'http://localhost:5001/groceries/verifysend',
         {
           _id: userId,
         },
@@ -390,7 +390,7 @@ export default function PaymentScreen({ route, navigation }) {
                 (
                 {totalPrice >= 1000
                   ? 'Delivery Free'
-                  : `${totalPrice} + PKR 100 Fees`}
+                  : `${totalPrice} + PKR 100 `}
                 )
               </Text>
             </View>
